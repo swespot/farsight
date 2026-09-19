@@ -27,13 +27,13 @@
 <body>
 
 <h1>Farsight Privacy Policy</h1>
-<p class="updated">Last updated: September 2026</p>
+<p class="updated">Last updated: September 2026 &middot; See also the <a href="terms.html">Terms of Service and Data Processing Agreement</a></p>
 
 <p>Farsight ("the App", "we", "us") is a Shopify application built and operated by Joachim Ekström that shows AI-powered product recommendations ("customers who liked this also liked") on a merchant's storefront. This policy explains what data Farsight processes, why, and how it is protected. It is written to be read by both the merchants who install Farsight ("you", "the merchant") and, where relevant, by the customers who visit merchant storefronts.</p>
 
 <h2>1. What data we process, and why</h2>
 <p>Farsight is designed to process the minimum data needed to generate and measure product recommendations. We do not collect customer names, email addresses, phone numbers, or shipping addresses.</p>
-<p><strong>From the merchant's product catalog</strong> (via the Shopify Admin API, using the <code>write_products</code> scope): product titles, descriptions, and prices. This is converted into a mathematical representation ("embedding") used to compute which products are similar to each other. No customer data is involved in this step.</p>
+<p><strong>From the merchant's product catalog</strong> (via the Shopify Admin API, using the read-only <code>read_products</code> scope): product titles and descriptions. This is converted into a mathematical representation ("embedding") used to compute which products are similar to each other. No customer data is involved in this step.</p>
 <p><strong>From storefront visitors interacting with the recommendation widget</strong>: which product page or cart the widget was shown on, which products were shown, and whether a shown product was clicked or added to cart. This is stored as product IDs and interaction counts only — never tied to a visitor's name, account, or contact details.</p>
 <p><strong>From completed orders</strong> (via the Shopify <code>read_orders</code> scope and the <code>orders/create</code> webhook, used only to measure whether a recommendation led to a sale): for each order, we look only at whether a line item carries our own internal tag (added automatically when a shopper adds a recommended product to their cart) and, if so, record the product ID, the line item's price and quantity, the order ID, and the currency. We do not read, store, or process the customer's name, email, address, or any other personal information present on the order.</p>
 <p><strong>Analytics and consent</strong>: The click/impression tracking described above is implemented as a Shopify Web Pixel Extension, which Shopify only executes for a storefront visitor if that visitor has granted the "analytics" consent category (through the merchant's own cookie/consent banner, where one is configured). If a visitor has not granted that consent, Farsight's tracking code does not run for them at all — this is enforced by Shopify's platform, not by our own code.</p>
@@ -42,19 +42,28 @@
 <p>The sole purpose of the data described above is to: (a) generate relevant product recommendations, (b) let the merchant see, inside the Farsight admin dashboard, how many people viewed, clicked, added to cart, and purchased through a recommendation, and how much revenue it generated. We do not use this data for any other purpose, and we do not sell, rent, or otherwise share it with third parties.</p>
 
 <h2>3. Data retention</h2>
-<p>Analytics events (impressions, clicks, add-to-carts, and order attributions) are automatically deleted after 365 days. Product catalog embeddings are kept only for as long as the merchant has Farsight installed, and are deleted when the merchant uninstalls the app (via Shopify's <code>app/uninstalled</code> webhook).</p>
+<p>Analytics events (impressions, clicks, add-to-carts, and order attributions) are automatically deleted after 365 days. Product catalog embeddings and all other shop-specific data are kept only for as long as the merchant has Farsight installed. When the merchant uninstalls the app, Shopify sends its mandatory <code>shop/redact</code> compliance webhook (about 48 hours later), and Farsight then deletes all data held for that shop. Farsight also implements <code>customers/data_request</code> and <code>customers/redact</code>, although it stores no data that identifies an individual customer.</p>
+<p>The hosting provider takes automatic daily backups of the database volume, which are kept for a limited period (currently five days) and then expire on their own. Data deleted from the live database can therefore remain in those backups until they expire; it is not restored or used for any other purpose.</p>
 
 <h2>4. Data security</h2>
-<p>All data in transit between the storefront, Shopify, and Farsight's servers is encrypted via HTTPS/TLS. Data at rest is stored in a database that is encrypted at rest by our hosting provider.</p>
+<p>All data in transit between the storefront, Shopify, and Farsight's servers is encrypted via HTTPS/TLS. Farsight is hosted on Fly.io in Stockholm, Sweden (EU), and its database is stored on an encrypted volume, so data at rest is encrypted. Access to the servers and to the third-party services below is restricted to the developer and protected by account credentials that are not stored in the source code.</p>
 
-<h2>5. Third parties</h2>
-<p>Farsight uses OpenAI's embeddings API to compute product similarity. The text sent to OpenAI is limited to product titles and descriptions already public on the merchant's storefront — no customer or order data is ever sent to OpenAI.</p>
+<h2>5. Third parties (subprocessors)</h2>
+<p>Farsight uses two service providers to operate the app:</p>
+<ul>
+<li><strong>OpenAI</strong> &mdash; its embeddings API computes product similarity. The text sent to OpenAI is limited to product titles and descriptions already public on the merchant's storefront; no customer or order data is ever sent to OpenAI. OpenAI may process this data outside the EU/EEA.</li>
+<li><strong>Fly.io</strong> &mdash; hosts the application and its database in Stockholm, Sweden.</li>
+</ul>
+<p>We will update this policy if a provider is added or replaced.</p>
 <p>Farsight does not, by itself, share data with any advertising or marketing platform (such as Meta/Facebook). If/when a merchant enables a supported ad-platform integration, this policy will be updated to describe exactly what is shared and under what consent conditions before that feature is enabled.</p>
 
 <h2>6. Merchant responsibilities</h2>
 <p>As the store owner, you remain responsible for maintaining your own privacy policy for your customers and for configuring a cookie/consent banner if required in the jurisdictions you sell into. Farsight's own tracking respects the consent signals from any such banner automatically, as described in Section 1.</p>
 
-<h2>7. Contact</h2>
+<h2>7. Roles</h2>
+<p>For any personal data that may be present in the data described above, the merchant is the data controller and Farsight acts as the merchant's data processor. The terms of that relationship are set out in the <a href="terms.html">Terms of Service and Data Processing Agreement</a>.</p>
+
+<h2>8. Contact</h2>
 <p>Questions about this policy or Farsight's data practices can be sent to: <a href="mailto:ekstromjoachim@gmail.com">ekstromjoachim@gmail.com</a>.</p>
 
 <div class="disclaimer">
